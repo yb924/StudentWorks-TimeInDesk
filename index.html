@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桌里时光 - 桌面</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="desktop-scene">
+        <div class="desk-background"></div>
+
+        <div class="desk-item item-c" id="timerTrigger">
+            <img src="assets/c.png" alt="物品c" class="item-img">
+        </div>
+        <div class="timer-float-display" id="timerFloatDisplay" style="display:none;">
+            <span class="timer-float-emoji" id="timerFloatEmoji"></span>
+            <span class="timer-float-time" id="timerFloatTime"></span>
+        </div>
+
+        <div class="desk-item item-f" id="readerTrigger">
+            <img src="assets/f.png" alt="物品f" class="item-img">
+        </div>
+
+        <div class="desk-item item-g" id="calendarTrigger">
+            <img src="assets/g.png" alt="物品g" class="item-img" id="imgG">
+        </div>
+
+        <div class="desk-item item-d" id="notebookTrigger">
+            <img src="assets/d.png" alt="物品d" class="item-img">
+        </div>
+
+        <div class="desk-item item-b">
+            <img src="assets/b.png" alt="物品b" class="item-img">
+        </div>
+
+        <div class="desk-item item-e" id="lampTrigger">
+            <img src="assets/e.png" alt="物品e" class="item-img" id="lampImg">
+        </div>
+    </div>
+
+    <div class="notebook-overlay" id="notebookOverlay">
+        <div class="notebook" id="notebook">
+            <div class="notebook-header">
+                <span class="page-indicator">第 <span id="currentPage">1</span> 页</span>
+                <div class="header-buttons">
+                    <button class="save-btn" id="saveBtn">保存</button>
+                    <button class="close-btn" id="closeNotebook">×</button>
+                </div>
+            </div>
+            <div class="notebook-content" id="notebookContent">
+                <textarea class="notebook-textarea" placeholder="在这里写下你的想法..."></textarea>
+            </div>
+            <div class="notebook-footer">
+                <button class="nav-btn" id="prevPage">◀ 上一页</button>
+                <button class="nav-btn" id="nextPage">下一页 ▶</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="calendar-overlay" id="calendarOverlay">
+        <div class="calendar" id="calendar">
+            <div class="calendar-header">
+                <button class="cal-nav-btn" id="prevMonth">◀</button>
+                <span class="calendar-title" id="calendarTitle"></span>
+                <button class="cal-nav-btn" id="nextMonth">▶</button>
+                <button class="cal-close-btn" id="closeCalendar">×</button>
+            </div>
+            <div class="calendar-weekdays">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+            <div class="calendar-schedule">
+                <div class="schedule-date" id="scheduleDate"></div>
+                <textarea class="schedule-input" id="scheduleInput" placeholder="在此输入日程安排..."></textarea>
+                <button class="schedule-save-btn" id="saveSchedule" onclick="saveScheduleDirect()">保存日程</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="reader-overlay" id="readerOverlay">
+        <div class="reader" id="reader">
+            <div class="reader-header">
+                <span class="reader-title">电子书阅读器</span>
+                <div class="reader-controls">
+                    <button class="reader-btn" id="minimizeReader">─</button>
+                    <button class="reader-btn close" id="closeReader">×</button>
+                </div>
+            </div>
+            <div class="reader-search">
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索书名或作者...">
+                <button class="search-btn" id="searchBtn">搜索</button>
+            </div>
+            <div class="reader-content">
+                <div class="search-results" id="searchResults"></div>
+                <div class="book-preview" id="bookPreview" style="display:none;">
+                    <div class="preview-header">
+                        <img class="book-cover" id="bookCover" src="" alt="封面">
+                        <div class="book-info">
+                            <h3 class="book-title" id="bookTitle"></h3>
+                            <p class="book-author" id="bookAuthor"></p>
+                            <p class="book-desc" id="bookDesc"></p>
+                            <button class="read-btn" id="readBtn">在线阅读</button>
+                        </div>
+                    </div>
+                    <div class="preview-body" id="previewBody"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer-overlay" id="timerOverlay">
+        <div class="timer" id="timer">
+            <div class="timer-header">
+                <span class="timer-title">专注计时器</span>
+                <button class="timer-close" id="closeTimer">×</button>
+            </div>
+            <div class="timer-setup" id="timerSetup">
+                <p class="timer-desc">设置专注时间（分钟）</p>
+                <div class="time-input-group">
+                    <button class="time-adjust" id="decreaseTime">−</button>
+                    <input type="number" class="time-input" id="timeInput" value="25" min="1" max="120">
+                    <button class="time-adjust" id="increaseTime">+</button>
+                </div>
+                <button class="start-timer-btn" id="startTimer">开始计时</button>
+            </div>
+            <div class="timer-display" id="timerDisplay" style="display:none;">
+                <div class="timer-circle">
+                    <svg class="timer-svg" viewBox="0 0 100 100">
+                        <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-progress" id="timerProgress" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="timer-time" id="timerTime">25:00</div>
+                </div>
+                <div class="timer-status" id="timerStatus">专注中...</div>
+                <button class="pause-btn" id="pauseTimer">暂停</button>
+                <button class="reset-btn" id="resetTimer">重置</button>
+            </div>
+            <div class="timer-complete" id="timerComplete" style="display:none;">
+                <div class="complete-icon">🎉</div>
+                <h3>太棒了！</h3>
+                <p class="complete-msg" id="completeMsg">你完成了<span id="completedMins">25</span>分钟的专注学习！</p>
+                <button class="done-btn" id="doneTimer">完成</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
