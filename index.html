@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>桌里时光 - 桌面</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div class="desktop-scene">
+        <div class="desk-background"></div>
+
+        <div class="desk-item item-c" id="timerTrigger">
+            <img src="assets/c.png" alt="物品c" class="item-img">
+        </div>
+        <div class="timer-float-display" id="timerFloatDisplay" style="display:none;">
+            <span class="timer-float-emoji" id="timerFloatEmoji"></span>
+            <span class="timer-float-time" id="timerFloatTime"></span>
+        </div>
+
+        <div class="desk-item item-f" id="readerTrigger">
+            <img src="assets/f.png" alt="物品f" class="item-img">
+        </div>
+
+        <div class="desk-item item-g" id="calendarTrigger">
+            <img src="assets/g.png" alt="物品g" class="item-img" id="imgG">
+        </div>
+
+        <div class="desk-item item-d" id="notebookTrigger">
+            <img src="assets/d.png" alt="物品d" class="item-img">
+        </div>
+
+        <div class="desk-item item-b" id="penHolderTrigger">
+            <img src="assets/b.png" alt="物品b" class="item-img">
+        </div>
+
+        <div class="desk-item item-e" id="lampTrigger">
+            <img src="assets/e.png" alt="物品e" class="item-img" id="lampImg">
+        </div>
+    </div>
+
+    <div class="pen-holder-overlay" id="penHolderOverlay">
+        <div class="pen-holder" id="penHolder">
+            <div class="pen-holder-header">
+                <span class="pen-holder-title">选择笔</span>
+                <button class="close-btn" id="closePenHolder">×</button>
+            </div>
+            <div class="pen-list" id="penList">
+                <div class="pen-item" data-pen="fountain-black" data-color="#333" data-font="serif">
+                    <div class="pen-icon fountain-pen black-pen"></div>
+                    <span class="pen-name">黑色钢笔</span>
+                </div>
+                <div class="pen-item" data-pen="fountain-blue" data-color="#1a5f7a" data-font="serif">
+                    <div class="pen-icon fountain-pen blue-pen"></div>
+                    <span class="pen-name">蓝色钢笔</span>
+                </div>
+                <div class="pen-item" data-pen="marker-black" data-color="#222" data-font="sans-serif">
+                    <div class="pen-icon marker-pen black-pen"></div>
+                    <span class="pen-name">黑色马克笔</span>
+                </div>
+                <div class="pen-item" data-pen="marker-red" data-color="#e74c3c" data-font="sans-serif">
+                    <div class="pen-icon marker-pen red-pen"></div>
+                    <span class="pen-name">红色马克笔</span>
+                </div>
+                <div class="pen-item" data-pen="brush-black" data-color="#2c2c2c" data-font="cursive">
+                    <div class="pen-icon brush-pen black-pen"></div>
+                    <span class="pen-name">黑色毛笔</span>
+                </div>
+                <div class="pen-item" data-pen="brush-red" data-color="#8b0000" data-font="cursive">
+                    <div class="pen-icon brush-pen red-pen"></div>
+                    <span class="pen-name">红色毛笔</span>
+                </div>
+                <div class="pen-item" data-pen="pencil" data-color="#555" data-font="monospace">
+                    <div class="pen-icon pencil-pen"></div>
+                    <span class="pen-name">铅笔</span>
+                </div>
+                <div class="pen-item" data-pen="color-green" data-color="#27ae60" data-font="sans-serif">
+                    <div class="pen-icon color-pen green-pen"></div>
+                    <span class="pen-name">绿色彩笔</span>
+                </div>
+                <div class="pen-item" data-pen="color-purple" data-color="#9b59b6" data-font="sans-serif">
+                    <div class="pen-icon color-pen purple-pen"></div>
+                    <span class="pen-name">紫彩笔</span>
+                </div>
+                <div class="pen-item" data-pen="color-orange" data-color="#e67e22" data-font="sans-serif">
+                    <div class="pen-icon color-pen orange-pen"></div>
+                    <span class="pen-name">橙彩笔</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 笔设置右键菜单 -->
+        <div class="pen-settings-menu" id="penSettingsMenu">
+            <div class="menu-item">
+                <span class="menu-label">笔大小:</span>
+                <input type="range" id="penSizeSlider" min="1" max="7" value="3">
+                <span class="menu-value" id="penSizeValue">中等</span>
+            </div>
+            <div class="menu-item">
+                <span class="menu-label">颜色深浅:</span>
+                <input type="range" id="colorIntensitySlider" min="0.3" max="1" step="0.1" value="1">
+                <span class="menu-value" id="colorIntensityValue">最深</span>
+            </div>
+            <div class="menu-divider"></div>
+            <div class="menu-item apply-btn">
+                <button id="applyPenSettings">应用设置</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notebook-overlay" id="notebookOverlay">
+        <div class="notebook" id="notebook">
+            <div class="notebook-header">
+                <span class="page-indicator">第 <span id="currentPage">1</span> 页</span>
+                <span class="current-pen-indicator" id="currentPenIndicator">
+                    <span class="pen-preview" id="penPreview"></span>
+                    <span class="pen-label" id="penLabel">黑色钢笔</span>
+                </span>
+                <div class="header-buttons">
+                    <button class="save-btn" id="saveBtn">保存</button>
+                    <button class="close-btn" id="closeNotebook">×</button>
+                </div>
+            </div>
+            <div class="notebook-content" id="notebookContent">
+                <div class="notebook-editor" id="notebookEditor" contenteditable="true" placeholder="在这里写下你的想法..."></div>
+                <div class="notebook-images" id="notebookImages"></div>
+            </div>
+            <div class="notebook-footer">
+                <button class="nav-btn" id="prevPage">◀ 上一页</button>
+                <label class="add-image-btn">
+                    <input type="file" accept="image/*" id="imageInput" style="display:none;">
+                    <span>📷 添加图片</span>
+                </label>
+                <button class="nav-btn" id="nextPage">下一页 ▶</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="calendar-overlay" id="calendarOverlay">
+        <div class="calendar" id="calendar">
+            <div class="calendar-header">
+                <button class="cal-nav-btn" id="prevMonth">◀</button>
+                <span class="calendar-title" id="calendarTitle"></span>
+                <button class="cal-nav-btn" id="nextMonth">▶</button>
+                <button class="cal-close-btn" id="closeCalendar">×</button>
+            </div>
+            <div class="calendar-weekdays">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            </div>
+            <div class="calendar-days" id="calendarDays"></div>
+            <div class="calendar-schedule">
+                <div class="schedule-date" id="scheduleDate"></div>
+                <textarea class="schedule-input" id="scheduleInput" placeholder="在此输入日程安排..."></textarea>
+                <div class="schedule-actions">
+                    <label class="complete-checkbox">
+                        <input type="checkbox" id="scheduleComplete">
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-label">标记完成</span>
+                    </label>
+                    <button class="schedule-save-btn" id="saveSchedule" onclick="saveScheduleDirect()">保存日程</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reader-overlay" id="readerOverlay">
+        <div class="reader" id="reader">
+            <div class="reader-header">
+                <span class="reader-title">电子书阅读器</span>
+                <div class="reader-controls">
+                    <button class="reader-btn" id="minimizeReader">─</button>
+                    <button class="reader-btn close" id="closeReader">×</button>
+                </div>
+            </div>
+            <div class="reader-search">
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索书名或作者...">
+                <button class="search-btn" id="searchBtn">搜索</button>
+            </div>
+            <div class="reader-content">
+                <div class="search-results" id="searchResults"></div>
+                <div class="book-preview" id="bookPreview" style="display:none;">
+                    <div class="preview-header">
+                        <img class="book-cover" id="bookCover" src="" alt="封面">
+                        <div class="book-info">
+                            <h3 class="book-title" id="bookTitle"></h3>
+                            <p class="book-author" id="bookAuthor"></p>
+                            <p class="book-desc" id="bookDesc"></p>
+                            <button class="read-btn" id="readBtn">在线阅读</button>
+                        </div>
+                    </div>
+                    <div class="preview-body" id="previewBody"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer-overlay" id="timerOverlay">
+        <div class="timer" id="timer">
+            <div class="timer-header">
+                <span class="timer-title">专注计时器</span>
+                <button class="timer-close" id="closeTimer">×</button>
+            </div>
+            <div class="timer-setup" id="timerSetup">
+                <p class="timer-desc">设置专注时间（分钟）</p>
+                <div class="time-input-group">
+                    <button class="time-adjust" id="decreaseTime">−</button>
+                    <input type="number" class="time-input" id="timeInput" value="25" min="1" max="120">
+                    <button class="time-adjust" id="increaseTime">+</button>
+                </div>
+                <button class="start-timer-btn" id="startTimer">开始计时</button>
+            </div>
+            <div class="timer-display" id="timerDisplay" style="display:none;">
+                <div class="timer-circle">
+                    <svg class="timer-svg" viewBox="0 0 100 100">
+                        <circle class="timer-bg-circle" cx="50" cy="50" r="45"></circle>
+                        <circle class="timer-progress" id="timerProgress" cx="50" cy="50" r="45"></circle>
+                    </svg>
+                    <div class="timer-time" id="timerTime">25:00</div>
+                </div>
+                <div class="timer-status" id="timerStatus">专注中...</div>
+                <button class="pause-btn" id="pauseTimer">暂停</button>
+                <button class="reset-btn" id="resetTimer">重置</button>
+            </div>
+            <div class="timer-complete" id="timerComplete" style="display:none;">
+                <div class="complete-icon">🎉</div>
+                <h3>太棒了！</h3>
+                <p class="complete-msg" id="completeMsg">你完成了<span id="completedMins">25</span>分钟的专注学习！</p>
+                <button class="done-btn" id="doneTimer">完成</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
